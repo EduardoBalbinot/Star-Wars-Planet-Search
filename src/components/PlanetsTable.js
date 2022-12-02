@@ -2,12 +2,33 @@ import { useContext } from 'react';
 import planetsContext from '../context/planetsContext';
 
 export default function PlanetsTable() {
-  const { planets, nameFilter } = useContext(planetsContext);
+  const {
+    planets,
+    nameFilter,
+    columnFilter,
+    comparisonFilter,
+    valueFilter,
+  } = useContext(planetsContext);
   const planetsArray = planets.results;
   let planetsArrayFilteredByName = [''];
   if (planetsArray) {
     planetsArrayFilteredByName = planetsArray
       .filter((p) => p.name.toLowerCase().includes(nameFilter.toLowerCase()));
+
+    if (columnFilter !== '' && comparisonFilter !== '' && valueFilter !== '') {
+      if (comparisonFilter === 'maior que') {
+        planetsArrayFilteredByName = planetsArrayFilteredByName
+          .filter((p) => Number(p[columnFilter]) > Number(valueFilter));
+      }
+      if (comparisonFilter === 'menor que') {
+        planetsArrayFilteredByName = planetsArrayFilteredByName
+          .filter((p) => Number(p[columnFilter]) < Number(valueFilter));
+      }
+      if (comparisonFilter === 'igual a') {
+        planetsArrayFilteredByName = planetsArrayFilteredByName
+          .filter((p) => Number(p[columnFilter]) === Number(valueFilter));
+      }
+    }
   }
 
   return (
