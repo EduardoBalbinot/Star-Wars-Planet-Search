@@ -5,6 +5,7 @@ import planetsContext from './planetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState({});
+  const [nameFilter, setNameFilter] = useState('');
 
   const savePlanetsOnState = async () => {
     setPlanets(await fetchPlanets());
@@ -16,6 +17,8 @@ export default function PlanetsProvider({ children }) {
 
   const value = {
     planets,
+    nameFilter,
+    setNameFilter,
   };
 
   return (
@@ -28,5 +31,5 @@ export default function PlanetsProvider({ children }) {
 }
 
 PlanetsProvider.propTypes = {
-  children: PropTypes.shape({}).isRequired,
+  children: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
