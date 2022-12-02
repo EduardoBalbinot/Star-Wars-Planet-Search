@@ -9,6 +9,8 @@ export default function PlanetsProvider({ children }) {
   const [columnFilter, setColumnFilter] = useState('');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState('');
+  const [filters, setFilters] = useState([]);
+  const [filterIndex, setFilterIndex] = useState(0);
 
   const savePlanetsOnState = async () => {
     setPlanets(await fetchPlanets());
@@ -28,6 +30,10 @@ export default function PlanetsProvider({ children }) {
     setComparisonFilter,
     valueFilter,
     setValueFilter,
+    filters,
+    setFilters,
+    filterIndex,
+    setFilterIndex,
   };
 
   return (

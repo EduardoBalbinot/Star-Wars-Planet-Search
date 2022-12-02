@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import planetsContext from '../context/planetsContext';
+import FiltersList from './FiltersList';
 
 export default function SearchBar() {
   const {
@@ -7,6 +8,10 @@ export default function SearchBar() {
     setColumnFilter,
     setComparisonFilter,
     setValueFilter,
+    filters,
+    setFilters,
+    filterIndex,
+    setFilterIndex,
   } = useContext(planetsContext);
 
   const [localColumnFilter, setLocalColumnFilter] = useState('population');
@@ -25,6 +30,17 @@ export default function SearchBar() {
     setColumnFilter(localColumnFilter);
     setComparisonFilter(localComparisonFilter);
     setValueFilter(localValueFilter);
+
+    setFilters([
+      ...filters,
+      {
+        id: filterIndex,
+        columnFilter: localColumnFilter,
+        comparisonFilter: localComparisonFilter,
+        valueFilter: localValueFilter,
+      },
+    ]);
+    setFilterIndex(filterIndex + 1);
   };
 
   return (
@@ -69,6 +85,8 @@ export default function SearchBar() {
       >
         Filtrar
       </button>
+
+      <FiltersList />
     </div>
   );
 }

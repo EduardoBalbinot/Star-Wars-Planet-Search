@@ -5,9 +5,7 @@ export default function PlanetsTable() {
   const {
     planets,
     nameFilter,
-    columnFilter,
-    comparisonFilter,
-    valueFilter,
+    filters,
   } = useContext(planetsContext);
   const planetsArray = planets.results;
   let planetsArrayFilteredByName = [''];
@@ -15,19 +13,21 @@ export default function PlanetsTable() {
     planetsArrayFilteredByName = planetsArray
       .filter((p) => p.name.toLowerCase().includes(nameFilter.toLowerCase()));
 
-    if (columnFilter !== '' && comparisonFilter !== '' && valueFilter !== '') {
-      if (comparisonFilter === 'maior que') {
-        planetsArrayFilteredByName = planetsArrayFilteredByName
-          .filter((p) => Number(p[columnFilter]) > Number(valueFilter));
-      }
-      if (comparisonFilter === 'menor que') {
-        planetsArrayFilteredByName = planetsArrayFilteredByName
-          .filter((p) => Number(p[columnFilter]) < Number(valueFilter));
-      }
-      if (comparisonFilter === 'igual a') {
-        planetsArrayFilteredByName = planetsArrayFilteredByName
-          .filter((p) => Number(p[columnFilter]) === Number(valueFilter));
-      }
+    if (filters.length > 0) {
+      filters.forEach((f) => {
+        if (f.comparisonFilter === 'maior que') {
+          planetsArrayFilteredByName = planetsArrayFilteredByName
+            .filter((p) => Number(p[f.columnFilter]) > Number(f.valueFilter));
+        }
+        if (f.comparisonFilter === 'menor que') {
+          planetsArrayFilteredByName = planetsArrayFilteredByName
+            .filter((p) => Number(p[f.columnFilter]) < Number(f.valueFilter));
+        }
+        if (f.comparisonFilter === 'igual a') {
+          planetsArrayFilteredByName = planetsArrayFilteredByName
+            .filter((p) => Number(p[f.columnFilter]) === Number(f.valueFilter));
+        }
+      });
     }
   }
 
