@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import planetsContext from '../context/planetsContext';
 import FiltersList from './FiltersList';
 
@@ -12,9 +12,11 @@ export default function SearchBar() {
     setFilters,
     filterIndex,
     setFilterIndex,
+    activeFilters,
+    setActiveFilters,
   } = useContext(planetsContext);
 
-  const [localColumnFilter, setLocalColumnFilter] = useState('population');
+  const [localColumnFilter, setLocalColumnFilter] = useState('diameter');
   const [localComparisonFilter, setLocalComparisonFilter] = useState('maior que');
   const [localValueFilter, setLocalValueFilter] = useState('0');
 
@@ -30,6 +32,10 @@ export default function SearchBar() {
     setColumnFilter(localColumnFilter);
     setComparisonFilter(localComparisonFilter);
     setValueFilter(localValueFilter);
+    setActiveFilters({
+      ...activeFilters,
+      [localColumnFilter]: false,
+    });
 
     setFilters([
       ...filters,
@@ -43,6 +49,11 @@ export default function SearchBar() {
     setFilterIndex(filterIndex + 1);
   };
 
+  useEffect(() => {
+    setLocalColumnFilter(Object.keys(activeFilters)
+      .find((k) => activeFilters[k] === true));
+  }, [filters, activeFilters]);
+
   return (
     <div>
       <input
@@ -54,12 +65,13 @@ export default function SearchBar() {
       <select
         data-testid="column-filter"
         onChange={ (e) => { setLocalState(setLocalColumnFilter, e.target.value); } }
+        value={ localColumnFilter }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        { (activeFilters.population && <option>population</option>) }
+        { (activeFilters.orbital_period && <option>orbital_period</option>) }
+        { (activeFilters.diameter && <option>diameter</option>) }
+        { (activeFilters.rotation_period && <option>rotation_period</option>) }
+        { (activeFilters.surface_water && <option>surface_water</option>) }
       </select>
 
       <select

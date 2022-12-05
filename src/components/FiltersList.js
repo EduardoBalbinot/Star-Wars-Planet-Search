@@ -5,11 +5,18 @@ export default function FiltersList() {
   const {
     filters,
     setFilters,
+    activeFilters,
+    setActiveFilters,
   } = useContext(planetsContext);
 
-  const excluirFiltro = (id) => {
+  const excluirFiltro = (id, columnFilter) => {
+    setActiveFilters({
+      ...activeFilters,
+      [columnFilter]: true,
+    });
     setFilters(filters.filter((f) => f.id !== id));
   };
+
   return (
     <div>
       {
@@ -24,7 +31,7 @@ export default function FiltersList() {
             </span>
             <button
               type="button"
-              onClick={ () => { excluirFiltro(f.id); } }
+              onClick={ () => { excluirFiltro(f.id, f.columnFilter); } }
             >
               Excluir filtro
             </button>

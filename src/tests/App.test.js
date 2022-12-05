@@ -51,6 +51,7 @@ describe('testa a aplicação', () => {
     const btnExcluirFiltro = await screen.findByRole('button', { name: 'Excluir filtro' });
     userEvent.click(btnExcluirFiltro);
 
+    userEvent.selectOptions(columnName, ['orbital_period']);
     const comparisonFilter = await screen.findByTestId('comparison-filter');
     userEvent.selectOptions(comparisonFilter, ['menor que']);
     userEvent.click(buttonFilter);
@@ -62,6 +63,7 @@ describe('testa a aplicação', () => {
 
     const btnExcluirFiltro2 = await screen.findByRole('button', { name: 'Excluir filtro' });
     userEvent.click(btnExcluirFiltro2);
+    userEvent.selectOptions(columnName, ['orbital_period']);
     userEvent.selectOptions(comparisonFilter, ['igual a']);
     userEvent.clear(valueFilter);
     userEvent.type(valueFilter, '304');

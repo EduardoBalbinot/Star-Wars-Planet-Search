@@ -11,6 +11,13 @@ export default function PlanetsProvider({ children }) {
   const [valueFilter, setValueFilter] = useState('');
   const [filters, setFilters] = useState([]);
   const [filterIndex, setFilterIndex] = useState(0);
+  const [activeFilters, setActiveFilters] = useState({
+    population: true,
+    orbital_period: true,
+    diameter: true,
+    rotation_period: true,
+    surface_water: true,
+  });
 
   const savePlanetsOnState = async () => {
     setPlanets(await fetchPlanets());
@@ -34,6 +41,8 @@ export default function PlanetsProvider({ children }) {
     setFilters,
     filterIndex,
     setFilterIndex,
+    activeFilters,
+    setActiveFilters,
   };
 
   return (
