@@ -21,7 +21,7 @@ export default function FiltersList() {
     <div>
       {
         filters.map((f) => (
-          <div key={ f.id }>
+          <div key={ f.id } data-testid="filter">
             <span>
               { f.columnFilter }
               {' '}

@@ -49,6 +49,17 @@ export default function SearchBar() {
     setFilterIndex(filterIndex + 1);
   };
 
+  const removeAllFilters = () => {
+    setFilters([]);
+    setActiveFilters({
+      population: true,
+      orbital_period: true,
+      diameter: true,
+      rotation_period: true,
+      surface_water: true,
+    });
+  };
+
   useEffect(() => {
     setLocalColumnFilter(Object.keys(activeFilters)
       .find((k) => activeFilters[k] === true));
@@ -98,6 +109,13 @@ export default function SearchBar() {
         Filtrar
       </button>
 
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ removeAllFilters }
+      >
+        REMOVER FILTROS
+      </button>
       <FiltersList />
     </div>
   );
