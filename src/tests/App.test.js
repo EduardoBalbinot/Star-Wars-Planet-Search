@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { getAllByTestId, render, screen } from '@testing-library/react';
 import App from '../App';
 import testData from '../../cypress/mocks/testData';
 import userEvent from '@testing-library/user-event';
@@ -70,5 +70,59 @@ describe('testa a aplicação', () => {
     userEvent.click(buttonFilter);
     const tatooineName3 = await screen.findByText('Tatooine');
     expect(tatooineName3).toBeInTheDocument();
+  });
+
+  it('testa o botao de remover todos os filtros', async () => {
+    render(<App />);
+    const buttonFilter = await screen.findByTestId('button-filter');
+    userEvent.click(buttonFilter);  
+    userEvent.click(buttonFilter);  
+    const filters = screen.getAllByTestId('filter');
+
+
+    expect(filters[0]).toBeInTheDocument();
+    expect(filters[1]).toBeInTheDocument();
+
+    const removeFiltersButton = screen.getByTestId('button-remove-filters');
+    userEvent.click(removeFiltersButton);
+    expect(filters[0]).not.toBeInTheDocument();
+    expect(filters[1]).not.toBeInTheDocument();
+  });
+
+  it('testa a ordem descendente', async () => {
+    render(<App />);
+    const descRadio = screen.getByTestId('column-sort-input-desc');
+    userEvent.click(descRadio);
+
+    const sortButton = screen.getByTestId('column-sort-button');
+    userEvent.click(sortButton);
+
+    const planetNames = await screen.findAllByTestId('planet-name');
+    expect(planetNames[0].innerHTML).toBe('Coruscant');
+  });
+
+  it('testa a ordem ascendente', async () => {
+    render(<App />);
+    const descRadio = screen.getByTestId('column-sort-input-asc');
+    userEvent.click(descRadio);
+
+    const sortButton = screen.getByTestId('column-sort-button');
+    userEvent.click(sortButton);
+
+    const planetNames = await screen.findAllByTestId('planet-name');
+    expect(planetNames[0].innerHTML).toBe('Yavin IV');
+  });
+
+  it('testa a ordem ascendente por diametro', async () => {
+    render(<App />);
+
+    const columnSelector = screen.getByTestId('column-sort');
+    userEvent.selectOptions(columnSelector, ['diameter']);
+
+    const sortButton = screen.getByTestId('column-sort-button');
+    userEvent.click(sortButton);
+
+    const planetNames = await screen.findAllByTestId('planet-name');
+    expect(planetNames[0].innerHTML).toBe('Endor');
   });
 });
