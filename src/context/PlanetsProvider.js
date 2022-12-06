@@ -18,6 +18,7 @@ export default function PlanetsProvider({ children }) {
     rotation_period: true,
     surface_water: true,
   });
+  const [order, setOrder] = useState({ column: 'population', sort: 'ASC' });
 
   const savePlanetsOnState = async () => {
     setPlanets(await fetchPlanets());
@@ -43,6 +44,8 @@ export default function PlanetsProvider({ children }) {
     setFilterIndex,
     activeFilters,
     setActiveFilters,
+    order,
+    setOrder,
   };
 
   return (

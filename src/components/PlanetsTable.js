@@ -6,6 +6,7 @@ export default function PlanetsTable() {
     planets,
     nameFilter,
     filters,
+    order,
   } = useContext(planetsContext);
   const planetsArray = planets.results;
   let planetsArrayFilteredByName = [''];
@@ -28,6 +29,21 @@ export default function PlanetsTable() {
             .filter((p) => Number(p[f.columnFilter]) === Number(f.valueFilter));
         }
       });
+    }
+
+    const negativeNumber = -1;
+    if (order.sort === 'ASC') {
+      planetsArrayFilteredByName
+        .sort((a, b) => {
+          if (b[order.column] === 'unknown') return negativeNumber;
+          return a[order.column] - b[order.column];
+        });
+    } else {
+      planetsArrayFilteredByName
+        .sort((a, b) => {
+          if (b[order.column] === 'unknown') return 1;
+          return b[order.column] - a[order.column];
+        });
     }
   }
 
@@ -54,7 +70,7 @@ export default function PlanetsTable() {
         {
           (planetsArray && planetsArrayFilteredByName.map((p, i) => (
             <tr key={ i }>
-              <td>{ p.name }</td>
+              <td data-testid="planet-name">{ p.name }</td>
               <td>{ p.rotation_period }</td>
               <td>{ p.orbital_period }</td>
               <td>{ p.diameter }</td>

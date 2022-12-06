@@ -14,11 +14,14 @@ export default function SearchBar() {
     setFilterIndex,
     activeFilters,
     setActiveFilters,
+    setOrder,
   } = useContext(planetsContext);
 
   const [localColumnFilter, setLocalColumnFilter] = useState('diameter');
   const [localComparisonFilter, setLocalComparisonFilter] = useState('maior que');
   const [localValueFilter, setLocalValueFilter] = useState('0');
+  const [localOrder, setLocalOrder] = useState('ASC');
+  const [localOrderColumn, setLocalOrderColumn] = useState('population');
 
   const setGlobalState = (setFunction, value) => {
     setFunction(value);
@@ -60,6 +63,12 @@ export default function SearchBar() {
     });
   };
 
+  const ordenar = () => {
+    setOrder({
+      column: localOrderColumn,
+      sort: localOrder,
+    });
+  };
   useEffect(() => {
     setLocalColumnFilter(Object.keys(activeFilters)
       .find((k) => activeFilters[k] === true));
@@ -116,6 +125,54 @@ export default function SearchBar() {
       >
         REMOVER FILTROS
       </button>
+
+      <select
+        data-testid="column-sort"
+        onChange={ (e) => { setLocalState(setLocalOrderColumn, e.target.value); } }
+      >
+        <option>population</option>
+        <option>orbital_period</option>
+        <option>diameter</option>
+        <option>rotation_period</option>
+        <option>surface_water</option>
+      </select>
+
+      <label
+        htmlFor="radioAsc"
+      >
+        <input
+          id="radioAsc"
+          type="radio"
+          name="orderOrientation"
+          data-testid="column-sort-input-asc"
+          value="ASC"
+          onChange={ (e) => { setLocalState(setLocalOrder, e.target.value); } }
+        />
+        Ascendente
+      </label>
+
+      <label
+        htmlFor="radioDesc"
+      >
+        <input
+          id="radioDesc"
+          name="orderOrientation"
+          type="radio"
+          data-testid="column-sort-input-desc"
+          value="DESC"
+          onChange={ (e) => { setLocalState(setLocalOrder, e.target.value); } }
+        />
+        Descendente
+      </label>
+
+      <button
+        type="button"
+        onClick={ ordenar }
+        data-testid="column-sort-button"
+      >
+        ORDENAR
+      </button>
+
       <FiltersList />
     </div>
   );
