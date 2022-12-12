@@ -28,9 +28,11 @@ export default function FiltersList() {
               { f.comparisonFilter }
               {' '}
               { f.valueFilter }
+              {' '}
             </span>
             <button
               type="button"
+              className="removeFilters"
               onClick={ () => { excluirFiltro(f.id, f.columnFilter); } }
             >
               Excluir filtro
