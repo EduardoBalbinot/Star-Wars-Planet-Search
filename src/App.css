@@ -147,9 +147,13 @@ th {
   height: 70px;
 }
 
-@media only screen and ( max-width : 550px ) {
+@media only screen and ( max-width : 700px ) {
 
   h1 {
     font-size: 5vw;
+  }
+
+  table {
+    font-size: 3vw;
   }
 }
